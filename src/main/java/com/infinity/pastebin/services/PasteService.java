@@ -25,4 +25,7 @@ public class PasteService {
     public void delete(Paste paste) {
         pasteRepository.delete(paste);
     }
+
+    // TODO
+    // In find method to add a exception (custom) handling
 }

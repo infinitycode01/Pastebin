@@ -1,11 +1,12 @@
 package com.infinity.pastebin.services;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.infinity.pastebin.util.KeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,14 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
-    public void uploadText(String content, String key) {
+    public void uploadText(String content, String key) throws AmazonClientException {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(content.length());
         s3Client.putObject(new PutObjectRequest(
                 bucketName,
                 key,
                 new ByteArrayInputStream(content.getBytes()),
-                new ObjectMetadata()));
+                objectMetadata));
     }
 
     public String getText(String key) {
