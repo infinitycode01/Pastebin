@@ -1,5 +1,6 @@
 package com.infinity.pastebin.services;
 
+import com.infinity.pastebin.exceptions.PasteNotFoundException;
 import com.infinity.pastebin.models.Paste;
 import com.infinity.pastebin.repositories.PasteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class PasteService {
         pasteRepository.save(paste);
     }
 
+    public Paste findById(Long id) {
+        return pasteRepository.findById(id).orElseThrow(PasteNotFoundException::new);
+    }
+
     @Transactional
     public void delete(Paste paste) {
         pasteRepository.delete(paste);
@@ -28,4 +33,6 @@ public class PasteService {
 
     // TODO
     // In find method to add a exception (custom) handling
+
+
 }

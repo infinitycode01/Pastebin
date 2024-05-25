@@ -1,13 +1,13 @@
 package com.infinity.pastebin.controllers;
 
-import com.infinity.pastebin.config.WebClientConfig;
+import com.infinity.pastebin.dto.PasteDTO;
 import com.infinity.pastebin.services.HashGeneratorService;
 import com.infinity.pastebin.services.PasteService;
 import com.infinity.pastebin.services.S3Service;
+import com.infinity.pastebin.util.PasteErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @RestController
 @RequestMapping("/api")
@@ -24,24 +24,15 @@ public class PasteController {
     }
 
     // TODO
-    // Handle if is does exist
-    // return object
-    // make a personDTO encharitate
-    @GetMapping("/{key}")
-    public String getPaste(@PathVariable String key) {
-        return s3Service.getText(key);
-    }
-
-    // TODO
     // Add handle for uploading service
     // dto object ? need or no ???
     // Saving in bd
     @PostMapping("/new")
-    public ResponseEntity<String> createPaste(@RequestBody String text) {
-        s3Service.uploadText(text, hashGeneratorService.getHash());
+    public ResponseEntity<String> createPaste(@RequestBody PasteDTO pasteDTO) {
 
+        s3Service.uploadText("", hashGeneratorService.getHash(), 1);
 
-        //pasteService.save(text);
+        //pasteService.save();
 
 
 
@@ -51,6 +42,20 @@ public class PasteController {
 
         return ResponseEntity.ok("Uploaded successfully");
     }
+
+    // TODO
+    // Handle if is does exist
+    // return object
+    // make a personDTO encharitate
+    @GetMapping("/{key}")
+    public String getPaste(@PathVariable String key) {
+        return s3Service.getText(key);
+    }
+
+    public void updatePaste() {
+        //TODO
+    }
+
 
     // TODO Add exception handle
     @DeleteMapping("/{key}")
