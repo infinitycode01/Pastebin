@@ -1,4 +1,4 @@
-package com.infinity.pastebin.services;
+package com.infinity.pastebin.services.impl;
 
 import com.infinity.pastebin.exceptions.PasteNotFoundException;
 import com.infinity.pastebin.models.Paste;

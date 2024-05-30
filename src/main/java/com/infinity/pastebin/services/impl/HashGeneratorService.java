@@ -1,4 +1,4 @@
-package com.infinity.pastebin.services;
+package com.infinity.pastebin.services.impl;
 
 import com.infinity.pastebin.config.WebClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,10 @@ public class HashGeneratorService {
         this.webClientConfig = webClientConfig;
     }
 
-    // Synchronous
-    public String getHash() {
+    public String getNewHash() {
         WebClient client = webClientConfig.getHashGeneratorServiceClient();
         return client.get()
-                .uri("/generator/get")
+                .uri("/generator/new")
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
