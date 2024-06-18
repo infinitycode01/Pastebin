@@ -2,12 +2,12 @@ package com.infinity.pastebin.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class PasteErrorResponse {
     private String message;
-    private long timestamp;
+    private LocalDateTime timestamp;
 }

@@ -8,6 +8,8 @@ import com.infinity.pastebin.models.Paste;
 import com.infinity.pastebin.services.impl.HashGeneratorService;
 import com.infinity.pastebin.services.impl.S3TextServiceImpl;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
