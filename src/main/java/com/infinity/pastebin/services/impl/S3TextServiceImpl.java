@@ -18,7 +18,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,6 @@ public class S3TextServiceImpl implements S3Service<String> {
     public void upload(String content, String key, long expirationTimeDays) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(content.length());
-        objectMetadata.setExpirationTime(new Date(TimeUnit.DAYS.toMillis(expirationTimeDays)));
 
         putObjectToS3(content, key, objectMetadata);
     }
@@ -123,4 +125,22 @@ public class S3TextServiceImpl implements S3Service<String> {
             throw new SdkClientException("Failed to upload/update text for key: " + key + " due to SDK client error", e);
         }
     }
+
+//    public void setBucketExpirationTimeRule() {
+//        List<BucketLifecycleConfiguration.Rule> rules = new ArrayList<>();
+//
+//        BucketLifecycleConfiguration.Rule rule = new BucketLifecycleConfiguration.Rule()
+//                .withId("Expiration time")
+//                .withStatus(BucketLifecycleConfiguration.ENABLED)
+//                .withExpirationInDays(7);
+//        rules.add(rule);
+//
+//        BucketLifecycleConfiguration bucketLifecycleConfiguration = new BucketLifecycleConfiguration(rules);
+//
+//        SetBucketLifecycleConfigurationRequest setBucketLifecycleConfigurationRequest = new SetBucketLifecycleConfigurationRequest(
+//                bucketName, bucketLifecycleConfiguration);
+//
+//        s3Client.setBucketLifecycleConfiguration(setBucketLifecycleConfigurationRequest);
+//
+//    }
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,23 +34,28 @@ public class PasteMapperImpl implements PasteCreateMapper, PasteResponseMapper {
     }
 
     public Paste toPaste(@Valid PasteCreateDto pasteCreateDTO) {
-
         String key = hashGeneratorService.getNewHash();
-        boolean isPrivate = !pasteCreateDTO.getVisibleFor().isEmpty();
 
-        return Paste.builder()
+        Paste.PasteBuilder builder = Paste.builder()
                 .title(pasteCreateDTO.getTitle())
                 .key(key)
                 .author(pasteCreateDTO.getAuthor())
                 .creationDate(LocalDateTime.now())
-                .expirationDate(LocalDateTime.now().plusDays(pasteCreateDTO.getExpirationTimeDays()))
-                .url(hashGeneratorUrl + "/api/" + key)
-                .isPrivate(isPrivate)
-                .visibleFor(Stream.concat(
-                        Stream.of(pasteCreateDTO.getAuthor()),
-                        pasteCreateDTO.getVisibleFor().stream()).collect(
-                                Collectors.toCollection(HashSet::new)))
-                .build();
+                .expirationDate(LocalDateTime.now().plusDays(7))
+                .url(hashGeneratorUrl + "/api/" + key);
+
+        if (pasteCreateDTO.getVisibleFor().isEmpty()) {
+            builder.isPrivate(false)
+                    .visibleFor(new HashSet<>());
+        } else {
+            builder.isPrivate(true)
+                    .visibleFor(Stream.concat(
+                            Stream.of(pasteCreateDTO.getAuthor()),
+                            pasteCreateDTO.getVisibleFor().stream()).collect(
+                            Collectors.toCollection(HashSet::new)));
+        }
+
+        return builder.build();
     }
 
     public PasteResponseDto toPasteResponseDto(@Valid Paste paste) {

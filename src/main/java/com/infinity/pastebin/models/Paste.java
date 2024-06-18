@@ -4,10 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -57,7 +61,7 @@ public class Paste {
     private boolean isPrivate = false;
 
     @NotEmpty
-    @ElementCollection
+    @ElementCollection @Fetch(FetchMode.JOIN)
     @CollectionTable(name = "paste_visible_for", joinColumns = @JoinColumn(name = "paste_id"))
     private Set<String> visibleFor = new HashSet<>();
 

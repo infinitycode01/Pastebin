@@ -9,12 +9,16 @@ import com.infinity.pastebin.services.impl.S3TextServiceImpl;
 import com.infinity.pastebin.exceptions.PasteNotCreatedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,18 +26,19 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class PasteController {
 
+    private static final Logger log = LoggerFactory.getLogger(PasteController.class);
     private final S3TextServiceImpl s3TextServiceImpl;
     private final PasteService pasteService;
     private final PasteMapperImpl pasteMapperImpl;
 
     /*
-     * {
-     *   "title": "",
-     *   "content": "",
-     *   "author": "",
-     *   "expirationTimeDays": "",
-     *   "visibleFor": ["", "", ""]
-     * }
+     {
+       "title": "",
+       "content": "",
+       "author": "",
+       "expirationTimeDays": "",
+       "visibleFor": ["", "", ""]
+     }
      */
     @PostMapping("/new")
     public ResponseEntity<String> create(@RequestBody @Valid PasteCreateDto pasteCreateDTO,
@@ -81,5 +86,4 @@ public class PasteController {
         s3TextServiceImpl.delete(key);
         return ResponseEntity.ok("Deleted successfully");
     }
-
 }
