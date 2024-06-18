@@ -6,7 +6,7 @@ public interface S3Service<T> {
 
     T get(String key);
 
-    void update();
+    void update(String content, String key);
 
     void delete(String key);
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class PasteService {
+
     private final PasteRepository pasteRepository;
 
     @Autowired
@@ -17,22 +18,23 @@ public class PasteService {
         this.pasteRepository = pasteRepository;
     }
 
+    public Paste findByKey(String key) {
+        return pasteRepository.findByKey(key).orElseThrow(() ->
+                new PasteNotFoundException("Paste with key: " + key + "not found"));
+    }
+
+    public boolean existsByKey(String key) {
+        return pasteRepository.existsByKey(key);
+    }
+
     @Transactional
     public void save(Paste paste) {
         pasteRepository.save(paste);
-    }
-
-    public Paste findById(Long id) {
-        return pasteRepository.findById(id).orElseThrow(PasteNotFoundException::new);
     }
 
     @Transactional
     public void delete(Paste paste) {
         pasteRepository.delete(paste);
     }
-
-    // TODO
-    // In find method to add a exception (custom) handling
-
 
 }

@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PasteRepository extends JpaRepository<Paste, Long> {
-    Paste findByKey(String key);
-    //List<Paste> findByCreatedWho(Long id);
+    Optional<Paste> findByKey(String key);
+    Boolean existsByKey(String key);
 }

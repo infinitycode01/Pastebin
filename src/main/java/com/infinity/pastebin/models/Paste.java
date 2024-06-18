@@ -59,6 +59,6 @@ public class Paste {
     @NotEmpty
     @ElementCollection
     @CollectionTable(name = "paste_visible_for", joinColumns = @JoinColumn(name = "paste_id"))
-    private Set<String> visibleFor = new HashSet<>();;
+    private Set<String> visibleFor = new HashSet<>();
 
 }

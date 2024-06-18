@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class S3Config {
+
     @Value("${s3AccessKey}")
     private String accessKey;
     @Value("${s3SecreteKey}")
@@ -24,4 +25,5 @@ public class S3Config {
                 .withRegion(Regions.EU_NORTH_1)
                 .build();
     }
+
 }

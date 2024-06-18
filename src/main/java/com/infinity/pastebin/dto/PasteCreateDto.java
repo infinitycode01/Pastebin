@@ -1,6 +1,7 @@
 package com.infinity.pastebin.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 
 @Getter
 @ToString
-public class PasteCreateDTO {
+public class PasteCreateDto {
 
     @NotEmpty
     @Length(min = 4, max = 16)
